@@ -1,25 +1,24 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import {Provider} from "react-redux";
+import {configureStore} from "../store";
+import {BrowserRouter as Router} from "react-router-dom";
+import Navbar from "./Navbar"
+
+const store = configureStore()
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+
+    render() {
+        return (
+            <Provider store={store}>
+                <Router>
+                    <div className="onboarding">
+                        <Navbar></Navbar>
+                    </div>
+                </Router>
+            </Provider>
+        );
+    }
 }
 
 export default App;
