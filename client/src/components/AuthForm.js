@@ -17,14 +17,32 @@ class AuthForm extends Component {
         this.setState({[e.target.name]: e.target.value})
     }
 
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const authType = this.props.signup ? "signup" : "signin";
+        this.props.onAuth(authType, this.state)
+            .then(() => {
+                this.props.history.push("/");
+            })
+            .catch(()=> {
+                return;
+            })
+    }
+
     render() {
-        const {email, username, password, profileImageUrl} = this.state;
-        const {heading, buttonText, signup} = this.props;
+        const {email, username, profileImageUrl} = this.state;
+        const {heading, buttonText, signup, errors, history, removeErrors} = this.props;
+
+        history.listen(() => {
+            removeErrors();
+        })
+
         return (
             <div className="row justify-content-md-center text-center">
                 <div className="col-md-6">
                     <form onSubmit={this.handleSubmit}>
                         <h2>{heading}</h2>
+                        {errors.message && <div className="alert alert-danger">{errors.message}</div>}
                         <label htmlFor="email">Email:</label>
                         <input
                             type="text" className="form-control"
